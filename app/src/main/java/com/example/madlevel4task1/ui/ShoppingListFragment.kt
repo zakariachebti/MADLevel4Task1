@@ -53,6 +53,10 @@ class ShoppingListFragment : Fragment() {
             showAddProductdialog();
         }
 
+        fabDeleteAll.setOnClickListener {
+            removeAllProducts()
+        }
+
     }
 
     private fun getShoppingListFromDatabase() {
@@ -148,6 +152,13 @@ class ShoppingListFragment : Fragment() {
         }
     }
 
-
+    private fun removeAllProducts() {
+        mainScope.launch {
+            withContext(Dispatchers.IO) {
+                productRepository.deleteAllProducts()
+            }
+            getShoppingListFromDatabase()
+        }
+    }
 
 }
